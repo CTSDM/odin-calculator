@@ -1,7 +1,8 @@
 const displayNumber = document.querySelector('p');
 const numbers = document.querySelectorAll('.number');
 const operators = document.querySelectorAll('.operator');
-const clearButton = document.querySelector('#clear')
+const clearButton = document.querySelector('#clear');
+const equalButton = document.querySelector('#equal')
 
 let operandsArr = ['', '', ''];
 let operandActive = false;
@@ -43,7 +44,22 @@ operators.forEach(operator => operator.addEventListener('click', () => {
 }))
 
 clearButton.addEventListener('click', () => {
-    displayNumber.textContent = '';
+    operandsArr = ['', '', ''];
+    operandActive = false;
+    screenDigits = [''];
+    displayNumber.textContent = screenDigits.join('');
+})
+
+equalButton.addEventListener('click', () => {
+    if (operandsArr[2].length > 0) {
+        let result = calculator[operandsArr[2]](parseInt(operandsArr[0]), parseInt(operandsArr[1]));
+        operandsArr[0] = `${result}`;
+        operandsArr[1] = '';
+        operandsArr[2] = '';
+        operandActive = false;
+        updateDisplay(result, '');
+    }
+
 })
 
 function increaseBuffer(element, flag_operand) {
