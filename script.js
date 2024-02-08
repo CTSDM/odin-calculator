@@ -3,10 +3,12 @@ const numbers = document.querySelectorAll('.number');
 const operators = document.querySelectorAll('.operator');
 const clearButton = document.querySelector('#clear');
 const equalButton = document.querySelector('#equal')
+const decimalButton = document.querySelector('#decimal')
 
 let operandsArr = ['', '', ''];
 let operandActive = false;
 let screenDigits = [''];
+let decimalActive = false;
 
 const calculator = {
     'x': (x, y) => x * y,
@@ -34,13 +36,14 @@ operators.forEach(operator => operator.addEventListener('click', () => {
         operandActive = true;
     }
     if (operandsArr[1].length > 0) {
-        let result = calculator[operandsArr[2]](parseInt(operandsArr[0]), parseInt(operandsArr[1]));
+        let result = calculator[operandsArr[2]](parseFloat(operandsArr[0]), parseFloat(operandsArr[1]));
         updateDisplay(result, operator.textContent);
         operandsArr[0] = `${result}`;
         operandsArr[1] = '';
         operandsArr[2] = operator.textContent;
         operandActive = true;
     }
+    decimalActive = false;
 }))
 
 clearButton.addEventListener('click', () => {
@@ -52,14 +55,38 @@ clearButton.addEventListener('click', () => {
 
 equalButton.addEventListener('click', () => {
     if (operandsArr[2].length > 0) {
-        let result = calculator[operandsArr[2]](parseInt(operandsArr[0]), parseInt(operandsArr[1]));
+        let result = calculator[operandsArr[2]](parseFloat(operandsArr[0]), parseFloat(operandsArr[1]));
         operandsArr[0] = `${result}`;
         operandsArr[1] = '';
         operandsArr[2] = '';
         operandActive = false;
         updateDisplay(result, '');
     }
+    decimalActive = false;
+})
 
+decimalButton.addEventListener('click', () => {
+    if (operandsArr[2].length < 1) {
+        if (!decimalActive) {
+            if (operandsArr[0].length < 1) {
+                operandsArr[0] += '0';
+                increaseBuffer('0', false);
+            }
+            operandsArr[0] += '.';
+            increaseBuffer('.', false);
+            decimalActive = !decimalActive;
+        }
+    } else {
+        if (!decimalActive) {
+            if (operandsArr[1].length < 1) {
+                operandsArr[1] += '0';
+                increaseBuffer('0', false);
+            }
+            operandsArr[1] += '.';
+            increaseBuffer('.', false);
+            decimalActive = !decimalActive;
+        }
+    }
 })
 
 function increaseBuffer(element, flag_operand) {
