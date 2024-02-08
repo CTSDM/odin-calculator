@@ -13,6 +13,7 @@ const calculator = {
     '+': (x, y) => x + y,
     '-': (x, y) => x - y,
     '÷': (x, y) => x / y,
+    'M': (x, y) => x % y,
 }
 
 numbers.forEach(number => number.addEventListener('click', () => {
@@ -32,7 +33,6 @@ operators.forEach(operator => operator.addEventListener('click', () => {
         operandsArr[2] = operator.textContent;
         operandActive = true;
     }
-
     if (operandsArr[1].length > 0) {
         let result = calculator[operandsArr[2]](parseInt(operandsArr[0]), parseInt(operandsArr[1]));
         updateDisplay(result, operator.textContent);
