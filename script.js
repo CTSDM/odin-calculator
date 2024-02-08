@@ -2,8 +2,9 @@ const displayNumber = document.querySelector('p');
 const numbers = document.querySelectorAll('.number');
 const operators = document.querySelectorAll('.operator');
 const clearButton = document.querySelector('#clear');
-const equalButton = document.querySelector('#equal')
-const decimalButton = document.querySelector('#decimal')
+const equalButton = document.querySelector('#equal');
+const decimalButton = document.querySelector('#decimal');
+const deleteButton = document.querySelector('#del');
 
 let operandsArr = ['', '', ''];
 let operandActive = false;
@@ -85,6 +86,21 @@ decimalButton.addEventListener('click', () => {
             operandsArr[1] += '.';
             increaseBuffer('.', false);
             decimalActive = !decimalActive;
+        }
+    }
+})
+
+deleteButton.addEventListener('click', () => {
+    let removed = screenDigits.pop();
+    displayNumber.textContent = screenDigits.join('');
+    if (operandsArr[1].length > 0) {
+        operandsArr[1] = operandsArr[1].slice(0, -1);
+    } else if (operandActive) {
+        operandsArr[2] = '';
+        operandActive = false;
+    } else {
+        if (operandsArr[0].length > 0) {
+            operandsArr[0] = operandsArr[0].slice(0, -1);
         }
     }
 })
