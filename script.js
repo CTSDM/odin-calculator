@@ -55,7 +55,7 @@ clearButton.addEventListener('click', () => {
 })
 
 equalButton.addEventListener('click', () => {
-    if (operandsArr[2].length > 0) {
+    if (operandsArr[1].length > 0) {
         let result = calculator[operandsArr[2]](parseFloat(operandsArr[0]), parseFloat(operandsArr[1]));
         operandsArr[0] = `${result}`;
         operandsArr[1] = '';
@@ -63,7 +63,6 @@ equalButton.addEventListener('click', () => {
         operandActive = false;
         updateDisplay(result, '');
     }
-    decimalActive = false;
 })
 
 decimalButton.addEventListener('click', () => {
