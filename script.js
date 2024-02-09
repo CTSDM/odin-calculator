@@ -19,11 +19,11 @@ const calculator = {
     '-': (x, y) => x - y,
     '÷': (x, y) => x / y,
     'M': (x, y) => x % y,
-}
+};
 
 numbers.forEach(number => number.addEventListener('click', () => {
     addNumber(number.textContent);
-}))
+}));
 
 operators.forEach(operator => operator.addEventListener('click', () => {
     if (operandsArr[0].length > 0 && operandsArr[1].length === 0) {
@@ -49,7 +49,7 @@ operators.forEach(operator => operator.addEventListener('click', () => {
         changeSignActive[1] = false;
     }
     decimalActive = false;
-}))
+}));
 
 clearButton.addEventListener('click', () => {
     operandsArr = ['', '', ''];
@@ -60,31 +60,7 @@ clearButton.addEventListener('click', () => {
 })
 
 equalButton.addEventListener('click', equal);
-
-decimalButton.addEventListener('click', () => {
-    if (operandsArr[2].length < 1) {
-        if (!decimalActive) {
-            if (operandsArr[0].length < 1) {
-                operandsArr[0] += '0';
-                increaseBuffer('0', false);
-            }
-            operandsArr[0] += '.';
-            increaseBuffer('.', false);
-            decimalActive = !decimalActive;
-        }
-    } else {
-        if (!decimalActive) {
-            if (operandsArr[1].length < 1) {
-                operandsArr[1] += '0';
-                increaseBuffer('0', false);
-            }
-            operandsArr[1] += '.';
-            increaseBuffer('.', false);
-            decimalActive = !decimalActive;
-        }
-    }
-})
-
+decimalButton.addEventListener('click', decimal);
 deleteButton.addEventListener('click', deleteInDisplay)
 
 changeSignButton.addEventListener('click', () => {
@@ -174,6 +150,30 @@ function deleteInDisplay() {
     } else {
         if (operandsArr[0].length > 0) {
             operandsArr[0] = operandsArr[0].slice(0, -1);
+        }
+    }
+}
+
+function decimal() {
+    if (operandsArr[2].length < 1) {
+        if (!decimalActive) {
+            if (operandsArr[0].length < 1) {
+                operandsArr[0] += '0';
+                increaseBuffer('0', false);
+            }
+            operandsArr[0] += '.';
+            increaseBuffer('.', false);
+            decimalActive = !decimalActive;
+        }
+    } else {
+        if (!decimalActive) {
+            if (operandsArr[1].length < 1) {
+                operandsArr[1] += '0';
+                increaseBuffer('0', false);
+            }
+            operandsArr[1] += '.';
+            increaseBuffer('.', false);
+            decimalActive = !decimalActive;
         }
     }
 }
