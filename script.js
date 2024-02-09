@@ -22,7 +22,11 @@ const calculator = {
 }
 
 numbers.forEach(number => number.addEventListener('click', () => {
-    currentDigit = number.textContent;
+    addNumber(number.textContent);
+}))
+
+function addNumber(number) {
+    currentDigit = number;
     increaseBuffer(currentDigit, false);
     if (!operandActive) {
         operandsArr[0] += currentDigit;
@@ -30,7 +34,7 @@ numbers.forEach(number => number.addEventListener('click', () => {
     } else {
         operandsArr[1] += currentDigit;
     }
-}))
+}
 
 operators.forEach(operator => operator.addEventListener('click', () => {
     if (operandsArr[0].length > 0 && operandsArr[1].length === 0) {
@@ -141,7 +145,6 @@ function changeSign(index) {
         updateDisplay('', '±');
         changeSignActive[index] = false; 
     }
-
 }
 
 function increaseBuffer(element, flag_operand) {
@@ -162,9 +165,11 @@ function updateDisplay(result, operand) {
         screenDigits = `${result}${operand}`.split('');
         displayNumber.textContent = screenDigits.join('');
     }
-
 } 
 
 function changeDecimalActive(num) {
     decimalActive = (num - parseInt(num)) !== 0 ? true : false;
 }
+
+// We call functions when a keyup event
+// With that purpose in mind, we've added an event listener to the document it self
