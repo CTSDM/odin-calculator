@@ -12,7 +12,6 @@ let operandActive = false;
 let screenDigits = [''];
 let decimalActive = false;
 let changeSignActive = [false, false];
-
 const calculator = {
     'x': (x, y) => x * y,
     '+': (x, y) => x + y,
@@ -26,16 +25,10 @@ numbers.forEach(number => number.addEventListener('click', () => {
 }));
 
 operators.forEach(operator => operator.addEventListener('click', () => {
-    addOperator(operator, operator.className.indexOf('sign') > 0); // operator.className.indexOf('sign') indicates that the button pressed is either + or -
+    addOperator(operator.textContent, operator.className.indexOf('sign') > 0); // operator.className.indexOf('sign') indicates that the button pressed is either + or -
 }));
 
-clearButton.addEventListener('click', () => {
-    operandsArr = ['', '', ''];
-    operandActive = false;
-    screenDigits = [''];
-    displayNumber.textContent = screenDigits.join('');
-    changeSignActive = [false, false];
-})
+clearButton.addEventListener('click', clearDisplay);
 
 equalButton.addEventListener('click', equal);
 decimalButton.addEventListener('click', decimal);
@@ -48,6 +41,28 @@ changeSignButton.addEventListener('click', () => {
         changeSign(0);
     }
 })
+
+document.addEventListener('keyup', keyChecker);
+
+function keyChecker(element) {
+    if (element.key >= '0' && element.key <= '9') {
+        addNumber(element.key);
+    } else if (calculator[element.key] !== undefined) {
+        if (element.key === '+' || element.key === '-') {
+            addOperator(element.key, true);
+        } else {
+            addOperator(element.key, false);
+        }
+    } else if (element.key === 'Delete') {
+        deleteInDisplay();
+    } else if (element.key === '.') {
+        decimal();
+    } else if (element.key === 'Escape') {
+        clearDisplay();
+    } else if (element.key === 'Enter') {
+        equal();
+    }
+}
 
 function changeSign(index) {
     if (changeSignActive[index] === false) {
@@ -69,7 +84,7 @@ function increaseBuffer(element, flag_operand) {
         screenDigits.push(element);
     }
     displayNumber.textContent = screenDigits.join('');
-}
+}true
 
 function updateDisplay(result, operand) {
     if (operand === '±') {
@@ -84,9 +99,6 @@ function updateDisplay(result, operand) {
 function changeDecimalActive(num) {
     decimalActive = (num - parseInt(num)) !== 0 ? true : false;
 }
-
-// We call functions when a keyup event
-// With that purpose in mind, we've added an event listener to the document it self
 
 function addNumber(number) {
     increaseBuffer(number, false);
@@ -131,25 +143,25 @@ function deleteInDisplay() {
     }
 }
 
-function addOperator(operator, operatorIsTypeSign)  {
+function addOperator(operatorName, operatorIsTypeSign)  {
     if (operandsArr[0].length > 0 && operandsArr[1].length === 0) {
         if (operandActive) {
-            if(operator.className.indexOf('sign') > 0 && operandsArr[2] !== operator.textContent) {
-                changeSignActive[1] = (operator.textContent === '-') ? true : false;
-                operandsArr[1] = operator.textContent;
-                increaseBuffer(operator.textContent, false);
+            if(operatorIsTypeSign && operandsArr[2] !== operatorName) {
+                changeSignActive[1] = (operatorName === '-') ? true : false;
+                operandsArr[1] = operatorName;
+                increaseBuffer(operatorName, false);
             }
         } else {
-        increaseBuffer(operator.textContent, operandActive)
-        operandsArr[2] = operator.textContent;
+        increaseBuffer(operatorName, operandActive)
+        operandsArr[2] = operatorName;
         operandActive = true;
         }
     } else if (operandsArr[1].length > 0) {
         let result = calculator[operandsArr[2]](parseFloat(operandsArr[0]), parseFloat(operandsArr[1]));
-        updateDisplay(result, operator.textContent);
+        updateDisplay(result, operatorName);
         operandsArr[0] = `${result}`;
         operandsArr[1] = '';
-        operandsArr[2] = operator.textContent;
+        operandsArr[2] = operatorName;
         operandActive = true;
         changeSignActive[0] = result < 0 ? true : false;
         changeSignActive[1] = false;
@@ -180,3 +192,11 @@ function decimal() {
         }
     }
 } 
+
+function clearDisplay() {
+    operandsArr = ['', '', ''];
+    operandActive = false;
+    screenDigits = [''];
+    displayNumber.textContent = screenDigits.join('');
+    changeSignActive = [false, false];
+}
