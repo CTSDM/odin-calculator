@@ -126,7 +126,7 @@ deleteButton.addEventListener('click', () => {
 changeSignButton.addEventListener('click', () => {
     if (operandsArr[1].length > 0) {
         changeSign(1);
-    } else if (!operandActive) {
+    } else if (!operandActive && operandsArr[0].length > 0) {
         changeSign(0);
     }
 })
