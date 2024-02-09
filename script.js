@@ -25,17 +25,6 @@ numbers.forEach(number => number.addEventListener('click', () => {
     addNumber(number.textContent);
 }))
 
-function addNumber(number) {
-    currentDigit = number;
-    increaseBuffer(currentDigit, false);
-    if (!operandActive) {
-        operandsArr[0] += currentDigit;
-        operandActive = false;
-    } else {
-        operandsArr[1] += currentDigit;
-    }
-}
-
 operators.forEach(operator => operator.addEventListener('click', () => {
     if (operandsArr[0].length > 0 && operandsArr[1].length === 0) {
         if (operandActive) {
@@ -70,19 +59,7 @@ clearButton.addEventListener('click', () => {
     changeSignActive = [false, false];
 })
 
-equalButton.addEventListener('click', () => {
-    if (operandsArr[1].length > 0) {
-        let result = calculator[operandsArr[2]](parseFloat(operandsArr[0]), parseFloat(operandsArr[1]));
-        operandsArr[0] = `${result}`;
-        operandsArr[1] = '';
-        operandsArr[2] = '';
-        operandActive = false;
-        updateDisplay(result, '');
-        changeSignActive[0] = result < 0 ? true : false;
-        changeSignActive[1] = false;
-        changeDecimalActive(result);
-    }
-})
+equalButton.addEventListener('click', equal);
 
 decimalButton.addEventListener('click', () => {
     if (operandsArr[2].length < 1) {
@@ -173,3 +150,28 @@ function changeDecimalActive(num) {
 
 // We call functions when a keyup event
 // With that purpose in mind, we've added an event listener to the document it self
+
+function addNumber(number) {
+    currentDigit = number;
+    increaseBuffer(currentDigit, false);
+    if (!operandActive) {
+        operandsArr[0] += currentDigit;
+        operandActive = false;
+    } else {
+        operandsArr[1] += currentDigit;
+    }
+}
+
+function equal() {
+    if (operandsArr[1].length > 0) {
+        let result = calculator[operandsArr[2]](parseFloat(operandsArr[0]), parseFloat(operandsArr[1]));
+        operandsArr[0] = `${result}`;
+        operandsArr[1] = '';
+        operandsArr[2] = '';
+        operandActive = false;
+        updateDisplay(result, '');
+        changeSignActive[0] = result < 0 ? true : false;
+        changeSignActive[1] = false;
+        changeDecimalActive(result);
+    }
+}
