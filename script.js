@@ -14,9 +14,11 @@ let decimalActive = false;
 let changeSignActive = [false, false];
 const calculator = {
     'x': (x, y) => x * y,
+    '*': (x, y) => x * y,
     '+': (x, y) => x + y,
     '-': (x, y) => x - y,
-    '÷': (x, y) => x / y,
+    '÷': division,
+    '/': division,
     'M': (x, y) => x % y,
 };
 
@@ -113,14 +115,20 @@ function addNumber(number) {
 function equal() {
     if (operandsArr[1].length > 0) {
         let result = calculator[operandsArr[2]](parseFloat(operandsArr[0]), parseFloat(operandsArr[1]));
-        operandsArr[0] = `${result}`;
-        operandsArr[1] = '';
-        operandsArr[2] = '';
-        operandActive = false;
-        updateDisplay(result, '');
-        changeSignActive[0] = result < 0 ? true : false;
-        changeSignActive[1] = false;
-        changeDecimalActive(result);
+        if (result === undefined) {
+            clearDisplay();
+            displayNumber.textContent = 'HOWDY HOWDY';
+        } else {
+            operandsArr[0] = `${result}`;
+            operandsArr[1] = '';
+            operandsArr[2] = '';
+            operandActive = false;
+            updateDisplay(result, '');
+            changeSignActive[0] = result < 0 ? true : false;
+            changeSignActive[1] = false;
+            changeDecimalActive(result);
+        }
+
     }
 }
 
@@ -199,4 +207,12 @@ function clearDisplay() {
     screenDigits = [''];
     displayNumber.textContent = screenDigits.join('');
     changeSignActive = [false, false];
+}
+
+function division(x, y) {
+    if (y === 0) {
+        return undefined;
+    } else {
+        return x / y;
+    }
 }
