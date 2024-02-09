@@ -34,11 +34,17 @@ numbers.forEach(number => number.addEventListener('click', () => {
 
 operators.forEach(operator => operator.addEventListener('click', () => {
     if (operandsArr[0].length > 0 && operandsArr[1].length === 0) {
+        if (operandActive) {
+            if(operator.className.indexOf('sign') > 0 && operandsArr[2] !== operator.textContent) {
+                operandsArr[1] = operator.textContent;
+                increaseBuffer(operator.textContent, false);
+            }
+        } else {
         increaseBuffer(operator.textContent, operandActive)
         operandsArr[2] = operator.textContent;
         operandActive = true;
-    }
-    if (operandsArr[1].length > 0) {
+        }
+    } else if (operandsArr[1].length > 0) {
         let result = calculator[operandsArr[2]](parseFloat(operandsArr[0]), parseFloat(operandsArr[1]));
         updateDisplay(result, operator.textContent);
         operandsArr[0] = `${result}`;
