@@ -36,6 +36,7 @@ operators.forEach(operator => operator.addEventListener('click', () => {
     if (operandsArr[0].length > 0 && operandsArr[1].length === 0) {
         if (operandActive) {
             if(operator.className.indexOf('sign') > 0 && operandsArr[2] !== operator.textContent) {
+                changeSignActive[1] = (operator.textContent === '-') ? true : false;
                 operandsArr[1] = operator.textContent;
                 increaseBuffer(operator.textContent, false);
             }
