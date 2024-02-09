@@ -5,11 +5,13 @@ const clearButton = document.querySelector('#clear');
 const equalButton = document.querySelector('#equal');
 const decimalButton = document.querySelector('#decimal');
 const deleteButton = document.querySelector('#del');
+const changeSignButton = document.querySelector('.operator-special');
 
 let operandsArr = ['', '', ''];
 let operandActive = false;
 let screenDigits = [''];
 let decimalActive = false;
+let changeSignActive = [false, false];
 
 const calculator = {
     'x': (x, y) => x * y,
@@ -43,6 +45,8 @@ operators.forEach(operator => operator.addEventListener('click', () => {
         operandsArr[1] = '';
         operandsArr[2] = operator.textContent;
         operandActive = true;
+        changeSignActive[0] = result < 0 ? true : false;
+        changeSignActive[1] = false;
     }
     decimalActive = false;
 }))
@@ -52,6 +56,7 @@ clearButton.addEventListener('click', () => {
     operandActive = false;
     screenDigits = [''];
     displayNumber.textContent = screenDigits.join('');
+    changeSignActive = [false, false];
 })
 
 equalButton.addEventListener('click', () => {
@@ -62,6 +67,8 @@ equalButton.addEventListener('click', () => {
         operandsArr[2] = '';
         operandActive = false;
         updateDisplay(result, '');
+        changeSignActive[0] = result < 0 ? true : false;
+        changeSignActive[1] = false;
     }
 })
 
@@ -104,6 +111,27 @@ deleteButton.addEventListener('click', () => {
     }
 })
 
+changeSignButton.addEventListener('click', () => {
+    if (operandsArr[1].length > 0) {
+        changeSign(1);
+    } else if (!operandActive) {
+        changeSign(0);
+    }
+})
+
+function changeSign(index) {
+    if (changeSignActive[index] === false) {
+        operandsArr[index] = ['-'] + operandsArr[index];
+        updateDisplay('', '±');
+        changeSignActive[index] = true;
+    } else {
+        operandsArr[index] = operandsArr[index].slice(1);
+        updateDisplay('', '±');
+        changeSignActive[index] = false; 
+    }
+
+}
+
 function increaseBuffer(element, flag_operand) {
     if (flag_operand) {
         screenDigits.pop();
@@ -115,6 +143,12 @@ function increaseBuffer(element, flag_operand) {
 }
 
 function updateDisplay(result, operand) {
-    screenDigits = `${result}${operand}`.split('');
-    displayNumber.textContent = screenDigits.join('');
+    if (operand === '±') {
+        screenDigits = `${operandsArr[0]}${operandsArr[2]}${operandsArr[1]}`.split('');
+        displayNumber.textContent = screenDigits.join('');
+    } else {
+        screenDigits = `${result}${operand}`.split('');
+        displayNumber.textContent = screenDigits.join('');
+    }
+
 } 
