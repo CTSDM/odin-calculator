@@ -69,6 +69,7 @@ equalButton.addEventListener('click', () => {
         updateDisplay(result, '');
         changeSignActive[0] = result < 0 ? true : false;
         changeSignActive[1] = false;
+        changeDecimalActive(result);
     }
 })
 
@@ -152,3 +153,7 @@ function updateDisplay(result, operand) {
     }
 
 } 
+
+function changeDecimalActive(num) {
+    decimalActive = (num - parseInt(num)) !== 0 ? true : false;
+}
