@@ -26,29 +26,7 @@ numbers.forEach(number => number.addEventListener('click', () => {
 }));
 
 operators.forEach(operator => operator.addEventListener('click', () => {
-    if (operandsArr[0].length > 0 && operandsArr[1].length === 0) {
-        if (operandActive) {
-            if(operator.className.indexOf('sign') > 0 && operandsArr[2] !== operator.textContent) {
-                changeSignActive[1] = (operator.textContent === '-') ? true : false;
-                operandsArr[1] = operator.textContent;
-                increaseBuffer(operator.textContent, false);
-            }
-        } else {
-        increaseBuffer(operator.textContent, operandActive)
-        operandsArr[2] = operator.textContent;
-        operandActive = true;
-        }
-    } else if (operandsArr[1].length > 0) {
-        let result = calculator[operandsArr[2]](parseFloat(operandsArr[0]), parseFloat(operandsArr[1]));
-        updateDisplay(result, operator.textContent);
-        operandsArr[0] = `${result}`;
-        operandsArr[1] = '';
-        operandsArr[2] = operator.textContent;
-        operandActive = true;
-        changeSignActive[0] = result < 0 ? true : false;
-        changeSignActive[1] = false;
-    }
-    decimalActive = false;
+    addOperator(operator, operator.className.indexOf('sign') > 0); // operator.className.indexOf('sign') indicates that the button pressed is either + or -
 }));
 
 clearButton.addEventListener('click', () => {
@@ -61,7 +39,7 @@ clearButton.addEventListener('click', () => {
 
 equalButton.addEventListener('click', equal);
 decimalButton.addEventListener('click', decimal);
-deleteButton.addEventListener('click', deleteInDisplay)
+deleteButton.addEventListener('click', deleteInDisplay);
 
 changeSignButton.addEventListener('click', () => {
     if (operandsArr[1].length > 0) {
@@ -111,13 +89,12 @@ function changeDecimalActive(num) {
 // With that purpose in mind, we've added an event listener to the document it self
 
 function addNumber(number) {
-    currentDigit = number;
-    increaseBuffer(currentDigit, false);
+    increaseBuffer(number, false);
     if (!operandActive) {
-        operandsArr[0] += currentDigit;
+        operandsArr[0] += number;
         operandActive = false;
     } else {
-        operandsArr[1] += currentDigit;
+        operandsArr[1] += number;
     }
 }
 
@@ -154,6 +131,32 @@ function deleteInDisplay() {
     }
 }
 
+function addOperator(operator, operatorIsTypeSign)  {
+    if (operandsArr[0].length > 0 && operandsArr[1].length === 0) {
+        if (operandActive) {
+            if(operator.className.indexOf('sign') > 0 && operandsArr[2] !== operator.textContent) {
+                changeSignActive[1] = (operator.textContent === '-') ? true : false;
+                operandsArr[1] = operator.textContent;
+                increaseBuffer(operator.textContent, false);
+            }
+        } else {
+        increaseBuffer(operator.textContent, operandActive)
+        operandsArr[2] = operator.textContent;
+        operandActive = true;
+        }
+    } else if (operandsArr[1].length > 0) {
+        let result = calculator[operandsArr[2]](parseFloat(operandsArr[0]), parseFloat(operandsArr[1]));
+        updateDisplay(result, operator.textContent);
+        operandsArr[0] = `${result}`;
+        operandsArr[1] = '';
+        operandsArr[2] = operator.textContent;
+        operandActive = true;
+        changeSignActive[0] = result < 0 ? true : false;
+        changeSignActive[1] = false;
+    }
+    decimalActive = false;
+}
+
 function decimal() {
     if (operandsArr[2].length < 1) {
         if (!decimalActive) {
@@ -176,4 +179,4 @@ function decimal() {
             decimalActive = !decimalActive;
         }
     }
-}
+} 
