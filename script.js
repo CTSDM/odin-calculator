@@ -85,24 +85,7 @@ decimalButton.addEventListener('click', () => {
     }
 })
 
-deleteButton.addEventListener('click', () => {
-    let removed = screenDigits.pop();
-    if (removed === '.') {
-        decimalActive = false;
-    }
-    displayNumber.textContent = screenDigits.join('');
-    if (operandsArr[1].length > 0) {
-        operandsArr[1] = operandsArr[1].slice(0, -1);
-    } else if (operandActive) {
-        operandsArr[2] = '';
-        operandActive = false;
-        decimalActive = (operandsArr[0] - parseInt(operandsArr[0]) === 0) ? false: true;
-    } else {
-        if (operandsArr[0].length > 0) {
-            operandsArr[0] = operandsArr[0].slice(0, -1);
-        }
-    }
-})
+deleteButton.addEventListener('click', deleteInDisplay)
 
 changeSignButton.addEventListener('click', () => {
     if (operandsArr[1].length > 0) {
@@ -173,5 +156,24 @@ function equal() {
         changeSignActive[0] = result < 0 ? true : false;
         changeSignActive[1] = false;
         changeDecimalActive(result);
+    }
+}
+
+function deleteInDisplay() {
+    let removed = screenDigits.pop();
+    if (removed === '.') {
+        decimalActive = false;
+    }
+    displayNumber.textContent = screenDigits.join('');
+    if (operandsArr[1].length > 0) {
+        operandsArr[1] = operandsArr[1].slice(0, -1);
+    } else if (operandActive) {
+        operandsArr[2] = '';
+        operandActive = false;
+        decimalActive = (operandsArr[0] - parseInt(operandsArr[0]) === 0) ? false: true;
+    } else {
+        if (operandsArr[0].length > 0) {
+            operandsArr[0] = operandsArr[0].slice(0, -1);
+        }
     }
 }
