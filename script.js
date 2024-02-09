@@ -106,12 +106,16 @@ decimalButton.addEventListener('click', () => {
 
 deleteButton.addEventListener('click', () => {
     let removed = screenDigits.pop();
+    if (removed === '.') {
+        decimalActive = false;
+    }
     displayNumber.textContent = screenDigits.join('');
     if (operandsArr[1].length > 0) {
         operandsArr[1] = operandsArr[1].slice(0, -1);
     } else if (operandActive) {
         operandsArr[2] = '';
         operandActive = false;
+        decimalActive = (operandsArr[0] - parseInt(operandsArr[0]) === 0) ? false: true;
     } else {
         if (operandsArr[0].length > 0) {
             operandsArr[0] = operandsArr[0].slice(0, -1);
