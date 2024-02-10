@@ -192,6 +192,9 @@ function addOperator(operatorName, operatorIsTypeSign)  {
                 changeSignActive[1] = (operatorName === '-') ? true : false;
                 operandsArr[1] = operatorName;
                 increaseBuffer(operatorName, false);
+            } else {
+                operandsArr[2] = operatorName;
+                increaseBuffer(operatorName, true);
             }
         } else {
         increaseBuffer(operatorName, operandActive)
