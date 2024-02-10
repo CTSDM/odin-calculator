@@ -70,8 +70,10 @@ function keyChecker(element) {
         checkAndToggleClass(3, decimalButton.textContent);
         decimal();
     } else if (element.key === 'Escape') {
+        checkAndToggleClass(4, clearButton.textContent);
         clearDisplay();
     } else if (element.key === 'Enter') {
+        checkAndToggleClass(5, equalButton.textContent);
         equal();
     }
 }
@@ -94,6 +96,12 @@ function checkAndToggleClass(typeButton, ...text) {
             break;
         case 3:
             objectType = decimalButton;
+            break;
+        case 4:
+            objectType = clearButton;
+            break;
+        case 5:
+            objectType = equalButton;
             break;
     }
     if (typeButton < 2) {
@@ -260,5 +268,11 @@ function division(x, y) {
         return undefined;
     } else {
         return x / y;
+    }
+}
+
+function checkSizeScreen () {
+    if (screenDigits.length > 10) {
+        console.log('uau')
     }
 }

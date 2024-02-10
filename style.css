@@ -6,6 +6,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #23f4fa;
 }
 
 .container {
@@ -15,13 +16,11 @@ body {
     flex-direction: column;
     justify-content: space-between;
     background-color: grey;
-    min-height: 300px;
-    min-width: 300px;
+    height: 400px;
     padding: 20px;
     gap: 20px;
-    min-width: 300px;
-    max-width: 900px;
-    min-height: 300px;
+    min-width: 150px;
+    max-width: 300px;
 }
 
 .row {
@@ -29,7 +28,12 @@ body {
     justify-content: space-between;
     align-items: center;
     flex-shrink: 1;
-    gap: 30px;
+    gap: 10px;
+}
+
+.container,
+.result {
+    border-radius: 40px;
 }
 
 .result {
@@ -39,6 +43,7 @@ body {
     background-color: yellow;
     margin-bottom: 10px;
     font-size: 40px;
+    height: 80px;
 }
 
 .button{
@@ -51,17 +56,14 @@ body {
     border-radius: 30px;
     font-family: 'Consolas', sans-serif;
     font-size: 20px;
-}
-
-p {
-    font-family: monospace, 'Verdana', sans-serif
-}
-
-.button {
     background-color: red;
     transition-property: background-color, font-size, transform;
     transition-timing-function: ease-in-out;
     transition-duration: 0.25s;
+}
+
+p {
+    font-family: monospace, 'Verdana', sans-serif
 }
 
 .button.number {
@@ -76,6 +78,6 @@ p {
     background-color: aliceblue;
 }
 
-.active {
-    background-color: gold;
+.button.active {
+    background-color: darkcyan;
 }
