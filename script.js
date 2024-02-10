@@ -21,7 +21,7 @@ const calculator = {
     '+': (x, y) => x + y,
     '-': (x, y) => x - y,
     '/': division,
-    'M': (x, y) => x % y,
+    'M': modulo,
 };
 
 buttons.forEach(button => button.addEventListener('click', () => {
@@ -284,6 +284,14 @@ function division(x, y) {
         return undefined;
     } else {
         return x / y;
+    }
+}
+
+function modulo (x, y) {
+    if (y ===0) {
+        return undefined;
+    } else {
+        return x % y;
     }
 }
 
