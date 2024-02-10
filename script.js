@@ -60,6 +60,7 @@ function keyChecker(element) {
         checkAndToggleClass(0, element.key);
         addNumber(element.key);
     } else if (calculator[element.key] !== undefined) {
+        checkAndToggleClass(1, element.key)
         if (element.key === '+' || element.key === '-') {
             addOperator(element.key, true);
         } else {
@@ -86,6 +87,13 @@ function checkAndToggleClass(typeButton, ...text) {
         for (let i = 0; i < numbers.length; ++i) {
             if (text.includes(numbers[i].textContent)) {
                 numbers[i].classList.toggle('active');
+                break;
+            }
+        }
+    } else if (typeButton === 1) {
+        for (let i = 0; i < operators.length; ++i) {
+            if (text.includes(operators[i].textContent)) {
+                operators[i].classList.toggle('active');
                 break;
             }
         }
