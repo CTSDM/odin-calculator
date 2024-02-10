@@ -16,6 +16,7 @@ let screenDigits = [];
 let decimalActive = false;
 let changeSignActive = [false, false];
 const calculator = {
+    'x': (x, y) => x * y,
     '*': (x, y) => x * y,
     '+': (x, y) => x + y,
     '-': (x, y) => x - y,
@@ -297,14 +298,16 @@ function checkSizeScreen () {
 function checkSizeResult(result) {
     // Here we check:
     // 1.- If the length of the result is greater than MAX_DIGITS_DISPLAY
-    // 2.- If (1) is true if there are decimals
-    // 3.- If there are decimals, truncate them so MAX_DIGITS_DISPLAY is not violated
-    if (parseInt(result/(10 ** MAX_DIGITS_DISPLAY))) {
+    if (result.toString().length > MAX_DIGITS_DISPLAY) {
         return true;
     }
 }
 
 function updateResult(result) {
+    // Here we check:
+    // 1.- If there are decimals
+    // 2.- If (2) truncate them so MAX_DIGITS_DISPLAY is not violated
+    // 3.- In case even with the truncation the result is greater than MAX_NUMBER the result itself is truncated to MAX_NUMBER
     if (decimalActive) {
         let integerSize = (result.toString()).indexOf(decimalButton.textContent);
         result = Math.round(result * (10 ** (MAX_DIGITS_DISPLAY - 1 - integerSize))) / (10 ** (MAX_DIGITS_DISPLAY - 1 - integerSize));
