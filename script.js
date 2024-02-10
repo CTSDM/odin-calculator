@@ -7,10 +7,12 @@ const decimalButton = document.querySelector('#decimal');
 const deleteButton = document.querySelector('#del');
 const changeSignButton = document.querySelector('.operator-special');
 const buttons = document.querySelectorAll('.button');
+const MAX_DIGITS_DISPLAY = 9;
+const MAX_NUMBER = 10 ** (MAX_DIGITS_DISPLAY + 1) -1;
 
 let operandsArr = ['', '', ''];
 let operandActive = false;
-let screenDigits = [''];
+let screenDigits = [];
 let decimalActive = false;
 let changeSignActive = [false, false];
 const calculator = {
@@ -63,7 +65,7 @@ function keyChecker(element) {
         } else {
             addOperator(element.key, false);
         }
-    } else if (element.key === 'Delete') {
+    } else if (element.key === 'Delete' || element.key === 'Backspace') {
         checkAndToggleClass(2, deleteButton.textContent);
         deleteInDisplay();
     } else if (element.key === '.') {
@@ -144,6 +146,9 @@ function updateDisplay(result, operand) {
         screenDigits = `${operandsArr[0]}${operandsArr[2]}${operandsArr[1]}`.split('');
         displayNumber.textContent = screenDigits.join('');
     } else {
+        if (checkSizeResult(result)) {
+            result = updateResult(result);
+        }
         screenDigits = `${result}${operand}`.split('');
         displayNumber.textContent = screenDigits.join('');
     }
@@ -154,12 +159,21 @@ function changeDecimalActive(num) {
 }
 
 function addNumber(number) {
-    increaseBuffer(number, false);
-    if (!operandActive) {
-        operandsArr[0] += number;
-        operandActive = false;
+    if (checkSizeScreen()) {
+        increaseBuffer(number, false);
+        if (!operandActive) {
+            operandsArr[0] += number;
+            operandActive = false;
+        } else {
+            operandsArr[1] += number;
+        }
     } else {
-        operandsArr[1] += number;
+        if (operandActive && operandsArr[1].length < 1) {
+            increaseBuffer(number, false);
+            if (operandsArr[1].length < 1) {
+                operandsArr[1] += number;
+            }
+        }
     }
 }
 
@@ -174,10 +188,10 @@ function equal() {
             operandsArr[1] = '';
             operandsArr[2] = '';
             operandActive = false;
-            updateDisplay(result, '');
             changeSignActive[0] = result < 0 ? true : false;
             changeSignActive[1] = false;
             changeDecimalActive(result);
+            updateDisplay(result, '');
         }
 
     }
@@ -258,9 +272,10 @@ function decimal() {
 function clearDisplay() {
     operandsArr = ['', '', ''];
     operandActive = false;
-    screenDigits = [''];
+    screenDigits = [];
     displayNumber.textContent = screenDigits.join('');
     changeSignActive = [false, false];
+    decimalActive = false;
 }
 
 function division(x, y) {
@@ -272,7 +287,30 @@ function division(x, y) {
 }
 
 function checkSizeScreen () {
-    if (screenDigits.length > 10) {
-        console.log('uau')
+    if (screenDigits.length > MAX_DIGITS_DISPLAY) {
+        return false;
+    } else {
+        return true;
     }
+}
+
+function checkSizeResult(result) {
+    // Here we check:
+    // 1.- If the length of the result is greater than MAX_DIGITS_DISPLAY
+    // 2.- If (1) is true if there are decimals
+    // 3.- If there are decimals, truncate them so MAX_DIGITS_DISPLAY is not violated
+    if (parseInt(result/(10 ** MAX_DIGITS_DISPLAY))) {
+        return true;
+    }
+}
+
+function updateResult(result) {
+    if (decimalActive) {
+        let integerSize = (result.toString()).indexOf(decimalButton.textContent);
+        result = Math.round(result * (10 ** (MAX_DIGITS_DISPLAY - 1 - integerSize))) / (10 ** (MAX_DIGITS_DISPLAY - 1 - integerSize));
+    }
+    if (result > MAX_NUMBER) {
+        result = 9999999999; // 9 999 999 999 = 9.999 999 999 e9
+    }
+    return result;
 }
