@@ -6,6 +6,7 @@ const equalButton = document.querySelector('#equal');
 const decimalButton = document.querySelector('#decimal');
 const deleteButton = document.querySelector('#del');
 const changeSignButton = document.querySelector('.operator-special');
+const buttons = document.querySelectorAll('.button');
 
 let operandsArr = ['', '', ''];
 let operandActive = false;
@@ -21,6 +22,14 @@ const calculator = {
     '/': division,
     'M': (x, y) => x % y,
 };
+
+buttons.forEach(button => button.addEventListener('click', () => {
+    button.classList.toggle('active');
+}));
+
+buttons.forEach(button => button.addEventListener('transitionend', () => {
+    button.classList.remove('active');
+}));
 
 numbers.forEach(number => number.addEventListener('click', () => {
     addNumber(number.textContent);
@@ -48,6 +57,7 @@ document.addEventListener('keyup', keyChecker);
 
 function keyChecker(element) {
     if (element.key >= '0' && element.key <= '9') {
+        checkAndToggleClass(0, element.key);
         addNumber(element.key);
     } else if (calculator[element.key] !== undefined) {
         if (element.key === '+' || element.key === '-') {
@@ -63,6 +73,22 @@ function keyChecker(element) {
         clearDisplay();
     } else if (element.key === 'Enter') {
         equal();
+    }
+}
+
+function checkAndToggleClass(typeButton, ...text) {
+    // typeButton indicates what kind of button we are dealing with
+    // 0 is for numbers
+    // 1 is for operators
+    // text variable is considered to be an array because there will be cases when we need to check more than one string
+    if (typeButton === 0)
+    {
+        for (let i = 0; i < numbers.length; ++i) {
+            if (text.includes(numbers[i].textContent)) {
+                numbers[i].classList.toggle('active');
+                break;
+            }
+        }
     }
 }
 

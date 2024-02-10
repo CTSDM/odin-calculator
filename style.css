@@ -57,3 +57,41 @@ body {
 p {
     font-family: monospace, 'Verdana', sans-serif
 }
+
+.button {
+    transition-property: background-color, font-size, transform;
+    transition-timing-function: ease-in-out;
+    transition-duration: 0.25s;
+}
+
+.number {
+    background-color: lightskyblue;
+}
+
+.operator {
+    background-color: lightcoral;
+}
+
+#equal {
+    background-color: darkred;
+}
+
+#clear {
+    background-color: snow;
+}
+
+#decimal {
+    background-color: grey;
+}
+
+.operator-special {
+    background-color: aliceblue;
+}
+
+#del {
+    background-color: blanchedalmond;
+}
+
+.active {
+    background-color: gold;
+}
