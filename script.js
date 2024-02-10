@@ -14,11 +14,9 @@ let screenDigits = [''];
 let decimalActive = false;
 let changeSignActive = [false, false];
 const calculator = {
-    'x': (x, y) => x * y,
     '*': (x, y) => x * y,
     '+': (x, y) => x + y,
     '-': (x, y) => x - y,
-    '÷': division,
     '/': division,
     'M': (x, y) => x % y,
 };
@@ -40,7 +38,6 @@ operators.forEach(operator => operator.addEventListener('click', () => {
 }));
 
 clearButton.addEventListener('click', clearDisplay);
-
 equalButton.addEventListener('click', equal);
 decimalButton.addEventListener('click', decimal);
 deleteButton.addEventListener('click', deleteInDisplay);
@@ -67,8 +64,10 @@ function keyChecker(element) {
             addOperator(element.key, false);
         }
     } else if (element.key === 'Delete') {
+        checkAndToggleClass(2, deleteButton.textContent);
         deleteInDisplay();
     } else if (element.key === '.') {
+        checkAndToggleClass(3, decimalButton.textContent);
         decimal();
     } else if (element.key === 'Escape') {
         clearDisplay();
@@ -82,21 +81,31 @@ function checkAndToggleClass(typeButton, ...text) {
     // 0 is for numbers
     // 1 is for operators
     // text variable is considered to be an array because there will be cases when we need to check more than one string
-    if (typeButton === 0)
-    {
-        for (let i = 0; i < numbers.length; ++i) {
-            if (text.includes(numbers[i].textContent)) {
-                numbers[i].classList.toggle('active');
+    let objectType;
+    switch (typeButton) {
+        case 0:
+            objectType = numbers;
+            break;
+        case 1:
+            objectType = operators;
+            break;
+        case 2:
+            objectType = deleteButton;
+            break;
+        case 3:
+            objectType = decimalButton;
+            break;
+    }
+    if (typeButton < 2) {
+        for (let i = 0; i < objectType.length; ++i) {
+            if (text.includes(objectType[i].textContent)) {
+                objectType[i].classList.toggle('active');
                 break;
             }
         }
-    } else if (typeButton === 1) {
-        for (let i = 0; i < operators.length; ++i) {
-            if (text.includes(operators[i].textContent)) {
-                operators[i].classList.toggle('active');
-                break;
-            }
-        }
+    }
+    else {
+        objectType.classList.toggle('active');
     }
 }
 

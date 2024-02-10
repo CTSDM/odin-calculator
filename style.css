@@ -28,7 +28,6 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: aliceblue;
     flex-shrink: 1;
     gap: 30px;
 }
@@ -59,37 +58,22 @@ p {
 }
 
 .button {
+    background-color: red;
     transition-property: background-color, font-size, transform;
     transition-timing-function: ease-in-out;
     transition-duration: 0.25s;
 }
 
-.number {
+.button.number {
     background-color: lightskyblue;
 }
 
-.operator {
+.button.operator {
     background-color: lightcoral;
-}
-
-#equal {
-    background-color: darkred;
-}
-
-#clear {
-    background-color: snow;
-}
-
-#decimal {
-    background-color: grey;
 }
 
 .operator-special {
     background-color: aliceblue;
-}
-
-#del {
-    background-color: blanchedalmond;
 }
 
 .active {
