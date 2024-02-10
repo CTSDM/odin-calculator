@@ -311,9 +311,11 @@ function updateResult(result) {
     if (decimalActive) {
         let integerSize = (result.toString()).indexOf(decimalButton.textContent);
         result = Math.round(result * (10 ** (MAX_DIGITS_DISPLAY - 1 - integerSize))) / (10 ** (MAX_DIGITS_DISPLAY - 1 - integerSize));
+        operandsArr[0] = result.toString();
     }
     if (result > MAX_NUMBER) {
         result = 9999999999; // 9 999 999 999 = 9.999 999 999 e9
+        operandsArr[0] = result.toString();
     }
     return result;
 }
