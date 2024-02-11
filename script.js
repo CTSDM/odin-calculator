@@ -247,25 +247,27 @@ function addOperator(operatorName, operatorIsTypeSign)  {
 }
 
 function decimal() {
-    if (operandsArr[2].length < 1) {
-        if (!decimalActive) {
-            if (operandsArr[0].length < 1) {
-                operandsArr[0] += '0';
-                increaseBuffer('0', false);
+    if (checkSizeScreen()) {
+        if (operandsArr[2].length < 1) {
+            if (!decimalActive) {
+                if (operandsArr[0].length < 1) {
+                    operandsArr[0] += '0';
+                    increaseBuffer('0', false);
+                }
+                operandsArr[0] += '.';
+                increaseBuffer('.', false);
+                decimalActive = !decimalActive;
             }
-            operandsArr[0] += '.';
-            increaseBuffer('.', false);
-            decimalActive = !decimalActive;
-        }
-    } else {
-        if (!decimalActive) {
-            if (operandsArr[1].length < 1) {
-                operandsArr[1] += '0';
-                increaseBuffer('0', false);
+        } else {
+            if (!decimalActive) {
+                if (operandsArr[1].length < 1) {
+                    operandsArr[1] += '0';
+                    increaseBuffer('0', false);
+                }
+                operandsArr[1] += '.';
+                increaseBuffer('.', false);
+                decimalActive = !decimalActive;
             }
-            operandsArr[1] += '.';
-            increaseBuffer('.', false);
-            decimalActive = !decimalActive;
         }
     }
 } 
